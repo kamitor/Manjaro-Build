@@ -22,11 +22,12 @@ jobs:
           curl -X POST -H \"Accept: application/vnd.github.v3+json\"  -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/myprofile/myrepo/actions/runners/registration-token
   prepare-release:
     runs-on: ubuntu-20.04
+    permissions: write-all
     steps:
       - 
         uses: styfle/cancel-workflow-action@0.9.0
         with:
-          access_token: ${{ github.token }}
+          access_token: ${{ secrets.github.token }}
       - 
         id: time
         uses: nanzm/get-time-action@v1.1
@@ -36,6 +37,7 @@ jobs:
       release_tag: ${{ steps.time.outputs.time }}
   build-release:
     runs-on: ubuntu-20.04
+    permissions: write-all
     needs: [prepare-release]
     strategy:
       matrix:
@@ -46,7 +48,7 @@ jobs:
       - 
         uses: styfle/cancel-workflow-action@0.9.0
         with:
-          access_token: ${{ github.token }}
+          access_token: ${{ secrets.github.token }}
       - 
         id: time
         uses: nanzm/get-time-action@v1.1
@@ -55,6 +57,7 @@ jobs:
       -
         name: image-build-upload
         uses: manjaro/manjaro-iso-action@main
+        
         with:
           edition: ${{ matrix.edition }}
           branch: ${{ matrix.branch }}
