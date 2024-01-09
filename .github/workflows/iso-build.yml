@@ -60,6 +60,7 @@ jobs:
         
         with:
           edition: ${{ matrix.edition }}
+          access_token: ${{ secrets.github.token }}
           branch: ${{ matrix.branch }}
           scope: ${{ matrix.scope }}
           version: ${{ steps.time.outputs.time }}-development
