@@ -48,7 +48,7 @@ jobs:
       - 
         uses: styfle/cancel-workflow-action@0.9.0
         with:
-          access_token: ${{ secrets.github.token }}
+          access_token: ${{ secrets.GITHUB_TOKEN }}
       - 
         id: time
         uses: nanzm/get-time-action@v1.1
@@ -60,7 +60,7 @@ jobs:
         
         with:
           edition: ${{ matrix.edition }}
-          access_token: ${{ secrets.github.token }}
+          access_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ matrix.branch }}
           scope: ${{ matrix.scope }}
           version: ${{ steps.time.outputs.time }}-development
@@ -71,5 +71,5 @@ jobs:
         name: rollback
         if: ${{ failure() || cancelled() }}
         run: |
-          echo ${{ secrets.github.token }} | gh auth login --with-token
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           gh release delete ${{ needs.prepare-release.outputs.release_tag }} -y --repo ${{ github.repository }}
